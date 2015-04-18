@@ -73,3 +73,13 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# CodeLite Project Files
+Release/
+Debug/
+MazeGame.mk
+MazeGame.project
+
+# CMake Files
+cmake/
+build/
