@@ -30,7 +30,7 @@ set(CMAKE_LDFLAGS "${CMAKE_LDFLAGS}")
 
 # Define the C sources
 set ( C_SRCS
-    src/gl_core_4.0.c
+    src/gl_core_3_3.c
 )
 
 # Define the CXX sources

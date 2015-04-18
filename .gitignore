@@ -83,3 +83,5 @@ MazeGame.txt
 
 # CMake Files
 build/
+
+output.log
