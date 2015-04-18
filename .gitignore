@@ -79,7 +79,7 @@ Release/
 Debug/
 MazeGame.mk
 MazeGame.project
+MazeGame.txt
 
 # CMake Files
-cmake/
 build/
