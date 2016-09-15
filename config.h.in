@@ -1,0 +1,2 @@
+#define MazeGame_VERSION_MAJOR @MazeGame_VERSION_MAJOR@
+#define MazeGame_VERSION_MINOR @MazeGame_VERSION_MINOR@
