@@ -33,6 +33,11 @@ public:
     {
         return &mResources.acquire(name, thor::Resources::fromFile<Texture>(name), thor::Resources::Reuse);
     }
+	
+	void LoadTexture (const std::string filename)
+	{
+		mResources.acquire (filename, thor::Resources::fromFile<Texture>(filename), thor::Resources::Reuse);
+	}
 
 private:
     Camera mCamera;

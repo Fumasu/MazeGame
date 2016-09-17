@@ -5,7 +5,7 @@
 #include <SFML/Window.hpp>
 
 #include "Context.hpp"
-#include "Quad.hpp"
+#include "Level.hpp"
 
 class Game
 {
@@ -20,6 +20,7 @@ private:
     void HandleEvents();
     void HandleInputs();
     
+    bool running{true};
     sf::Window mWindow;
     unsigned int mWidth, mHeight;
     std::string mTitle;
@@ -28,6 +29,6 @@ private:
     
     int lastMousePos[2] {-9999, -9999};
     
-    std::vector<Quad*> mObjects;
+    std::vector<Level*> mObjects;
 };
 

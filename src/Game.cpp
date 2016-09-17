@@ -6,7 +6,7 @@
 
 #include "config.h"
 #include "gl_core_3_3.h"
-#include "Quad.hpp"
+#include "Level.hpp"
 #include "Camera.hpp"
 
 /**
@@ -65,8 +65,10 @@ bool Game::Init()
     mContext.SetCamera(Camera({0.f, 0.f, 10.f}));
     mContext.GetCamera()->MovementSpeed =0.05f;
     
-    mObjects.emplace_back(new Quad({0.f, 0.f, 0.f}));
-    mObjects.emplace_back(new Quad({0.f, 3.f, 0.f}));
+//  mObjects.emplace_back(new Quad({0.f, 0.f, 0.f}));
+//    mObjects.emplace_back(new Quad({0.f, 3.f, 0.f}));
+	mObjects.emplace_back (new Level(mContext));
+	mObjects[0]->loadFromFile ("res/Maps/quad.flf");
     
     return true;
 }
@@ -80,9 +82,8 @@ int Game::Run()
     sf::Clock clock;
     sf::Time deltaTime;
     sf::Time TimePerFrame =sf::seconds(1 / 60.f);
-//    Quad quad({0.f, 0.f, 0.f});
     
-    while (mWindow.isOpen())
+    while (running)
     {
         deltaTime +=clock.getElapsedTime();
         
@@ -107,6 +108,8 @@ int Game::Run()
         obj =nullptr;
     }
     
+    mWindow.close();
+    
     return EXIT_SUCCESS;
 }
 
@@ -120,7 +123,7 @@ void Game::HandleEvents()
         {
             case sf::Event::Closed:
             {
-                mWindow.close();
+                running =false;
                 break;
             }
             case sf::Event::Resized:
@@ -138,7 +141,7 @@ void Game::HandleEvents()
                 {
                     case sf::Keyboard::Escape:
                     {
-                        mWindow.close();
+                        running =false;
                         break;
                     }
                     default:
@@ -172,8 +175,8 @@ void Game::HandleInputs()
     }
     sf::Vector2i mousePos =sf::Mouse::getPosition(mWindow);
     GLfloat xoffset =mousePos.x - (mWidth / 2.f);
-    GLfloat yoffset =(mHeight / 2.f) - mousePos.y;
-//    GLfloat yoffset =mousePos.y - (mHeight / 2.f);  //Inverted Mouse
+//    GLfloat yoffset =(mHeight / 2.f) - mousePos.y;
+    GLfloat yoffset =mousePos.y - (mHeight / 2.f);  //Inverted Mouse
     sf::Mouse::setPosition({static_cast<int>(mWidth) / 2, static_cast<int>(mHeight) / 2}, mWindow);
     mContext.GetCamera()->ProcessMouseMovement(xoffset, yoffset);
 }

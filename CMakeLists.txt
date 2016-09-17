@@ -23,6 +23,7 @@ set (CXX_SRCS
     ${CMAKE_SOURCE_DIR}/src/Quad.cpp
     ${CMAKE_SOURCE_DIR}/src/Texture.cpp
     ${CMAKE_SOURCE_DIR}/src/Shader.cpp
+	${CMAKE_SOURCE_DIR}/src/Level.cpp
 )
 
 set (C_SRCS
