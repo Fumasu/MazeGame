@@ -85,3 +85,6 @@ MazeGame.txt
 build/
 
 output.log
+
+# NetBeans Project dir
+MazeGame/
