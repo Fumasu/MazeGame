@@ -6,12 +6,13 @@ einfaches Quad mit Textur
 T res/Textures/quad.png
 T res/Textures/quad2.png
 #V = Vertex
-V -5.0 -5.0 -5.0
-V -5.0  5.0 -5.0
-V  5.0  5.0 -5.0
-V  5.0 -5.0 -5.0
+#  X    Y    Z   UV  Normal
+V -5.0 -5.0 -5.0 0 1 0 0 -1
+V -5.0  5.0 -5.0 0 0 0 0 -1
+V  5.0  5.0 -5.0 1 0 0 0 -1
+V  5.0 -5.0 -5.0 1 1 0 0 -1
 #TextureID VertexIndex[3] UV[3][2] Normal[3]
 #M = Triangle
-#    INDEX|UV1|UV2|UV3|NORMAL
-#M 0 0 1 2 0 0 0 1 1 1 0 0 -1
-M 1 0 2 3 0 0 0 1 1 1 0 0 -1
+#   INDEX|UV1|UV2|UV3|NORMAL
+M 0 0 1 2
+M 0 0 2 3

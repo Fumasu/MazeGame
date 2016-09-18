@@ -39,12 +39,12 @@ bool Game::Init()
     
     mWindow.create({mWidth, mHeight}, mTitle + " " + std::to_string(MazeGame_VERSION_MAJOR) + "." + std::to_string(MazeGame_VERSION_MINOR), sf::Style::Titlebar | sf::Style::Close, settings);
     
-    ogl_LoadFunctions();
+    auto ret =ogl_LoadFunctions();
     
-    if (ogl_LOAD_FAILED)
+    if (ret ==ogl_LOAD_FAILED)
         return false;
     
-    if (ogl_LOAD_SUCCEEDED)
+    if (ret ==ogl_LOAD_SUCCEEDED)
     {
         if (!ogl_IsVersionGEQ(3, 3))
         {
@@ -60,7 +60,7 @@ bool Game::Init()
     
     glViewport(0, 0, mWidth, mHeight);
     
-    mContext.SetProjection(glm::perspective(45.f, mWidth / static_cast<float>(mHeight), 0.1f, 1000.f));
+    mContext.SetProjection(glm::perspective(45.f, static_cast<float>(mWidth) / static_cast<float>(mHeight), 0.1f, 1000.f));
     
     mContext.SetCamera(Camera({0.f, 0.f, 10.f}));
     mContext.GetCamera()->MovementSpeed =0.05f;
@@ -128,7 +128,10 @@ void Game::HandleEvents()
             }
             case sf::Event::Resized:
             {
-                glViewport(0, 0, event.size.height, event.size.height);
+                mWidth =event.size.width;
+                mHeight =event.size.height;
+                glViewport(0, 0, mHeight, mHeight);
+                mContext.SetProjection(glm::perspective(45.f, static_cast<float>(mWidth) / static_cast<float>(mHeight), 0.1f, 1000.f));
                 break;
             }
             case sf::Event::MouseMoved:
