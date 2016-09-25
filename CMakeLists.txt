@@ -23,7 +23,11 @@ set (CXX_SRCS
     ${CMAKE_SOURCE_DIR}/src/Quad.cpp
     ${CMAKE_SOURCE_DIR}/src/Texture.cpp
     ${CMAKE_SOURCE_DIR}/src/Shader.cpp
-	${CMAKE_SOURCE_DIR}/src/Level.cpp
+    ${CMAKE_SOURCE_DIR}/src/Level.cpp
+    ${CMAKE_SOURCE_DIR}/src/Triangle.cpp
+    ${CMAKE_SOURCE_DIR}/src/Mesh.cpp
+    ${CMAKE_SOURCE_DIR}/src/Model.cpp
+    ${CMAKE_SOURCE_DIR}/src/GLBufferObject.cpp
 )
 
 set (C_SRCS
@@ -67,3 +71,10 @@ if (THOR_FOUND)
     include_directories (${THOR_INCLUDE_DIR})
     target_link_libraries (${EXECUTABLE_NAME} ${THOR_LIBRARY})
 endif (THOR_FOUND)
+
+find_package (assimp REQUIRED)
+if (assimp_FOUND)
+    target_link_libraries (${EXECUTABLE_NAME} ${assimp_LIBRARIES})
+    include_directories (${assimp_INCLUDE_DIRS})
+    add_definitions (${assimp_DEFINITIONS})
+endif (assimp_FOUND)

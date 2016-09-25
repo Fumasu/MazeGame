@@ -7,6 +7,8 @@
 #include "Context.hpp"
 #include "Level.hpp"
 
+#include "AABB.hpp"
+
 class Game
 {
 public:
@@ -30,5 +32,7 @@ private:
     int lastMousePos[2] {-9999, -9999};
     
     std::vector<Level*> mObjects;
+    
+    AABB mPlayerBox;
 };
 

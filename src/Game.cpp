@@ -62,7 +62,8 @@ bool Game::Init()
     
     mContext.SetProjection(glm::perspective(45.f, static_cast<float>(mWidth) / static_cast<float>(mHeight), 0.1f, 1000.f));
     
-    mContext.SetCamera(Camera({0.f, 0.f, 10.f}));
+    mPlayerBox =AABB(glm::vec3(0, 4.5f, 0), glm::vec3(.5f, .5f, .5f));
+    mContext.SetCamera(Camera({0.f, 5.f, 0.f}));
     mContext.GetCamera()->MovementSpeed =0.05f;
     
 //  mObjects.emplace_back(new Quad({0.f, 0.f, 0.f}));
@@ -81,7 +82,7 @@ int Game::Run()
 {
     sf::Clock clock;
     sf::Time deltaTime;
-    sf::Time TimePerFrame =sf::seconds(1 / 60.f);
+    sf::Time TimePerFrame =sf::seconds(1.f / 60.f);
     
     while (running)
     {
@@ -91,6 +92,15 @@ int Game::Run()
         {
             HandleEvents();
             HandleInputs();
+            
+            if (!mObjects[0]->CheckCollision (mPlayerBox))
+            {
+                glm::vec3 pos =mContext.GetCamera()->Position;
+                pos.y -=.001f;
+                mContext.GetCamera()->Position =pos;
+                mPlayerBox =AABB(glm::vec3(pos.x, pos.y - .5f, pos.z), glm::vec3(.5f, .5f, .5f));
+            }
+            
             deltaTime -=TimePerFrame;
         }
         
@@ -170,6 +180,15 @@ void Game::HandleInputs()
         mContext.GetCamera()->ProcessKeyboard(LEFT, time.asSeconds());
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         mContext.GetCamera()->ProcessKeyboard(RIGHT, time.asSeconds());
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    {
+        glm::vec3 pos =mContext.GetCamera()->Position;
+        pos.y +=.2f;
+        mContext.GetCamera()->Position =pos;
+    }
+    
+    glm::vec3 pos =mContext.GetCamera()->Position;
+    mPlayerBox =AABB(glm::vec3(pos.x, pos.y - .5f, pos.z), glm::vec3(.5f, .5f, .5f));
     
     if (firstRun)
     {

@@ -10,6 +10,9 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Triangle.hpp"
+#include "old/include/gl_core_3_3.h"
+
 Level::Level (Context& ctx) : mVBO(0), mVAO(0), mEBO(0), mCtx(ctx)
 {
     mShader.loadFromFile ("res/Shaders/quad.vs", "res/Shaders/quad.fs");
@@ -124,6 +127,34 @@ bool Level::loadFromFile (const std::string filename)
 
                 break;
             }
+            case 'B':
+            {
+                line.erase (0, 2);
+                std::stringstream sstr;
+                float x[2], y[2], z[2];
+                
+                sstr <<line;
+                sstr >>x[0] >>y[0] >>z[0] >>x[1] >>y[1] >>z[1];
+                
+                /*float cx, cy, cz;
+                float rx, ry, rz;
+                
+                cx =(x[0] >x[1] ? x[0] + x[1] / 2.f : x[1] + x[0] / 2.f);
+                cy =(y[0] >y[1] ? y[0] + y[1] / 2.f : y[1] + y[0] / 2.f);
+                cz =(z[0] >z[1] ? z[0] + z[1] / 2.f : z[1] + z[0] / 2.f);
+                
+                rx =std::abs(cx - x[0]);
+                ry =std::abs(cy - y[0]);
+                rz =std::abs(cz - z[0]);
+                
+                std::cout <<cx <<" " <<cy <<" " <<cz <<"\n";
+                std::cout <<rx <<" " <<ry <<" " <<rz <<"\n";
+                
+                mBouindingBoxes.push_back(AABB(glm::vec3(cx, cy, cz), glm::vec3(rx, ry, rz)));*/
+                mBouindingBoxes.push_back(AABB(glm::vec3(x[0], y[0], z[0]), glm::vec3(x[1], y[1], z[1])));
+                
+                break;
+            }
         }
     }
 
@@ -175,6 +206,9 @@ bool Level::loadFromFile (const std::string filename)
             mCtx.LoadTexture (t);
 
     glBindVertexArray (0);
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
 
     return true;
 }
@@ -196,6 +230,10 @@ void Level::Draw (const sf::Window& window, Context& ctx)
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(ctx.GetProjection()));
 	
     glBindVertexArray (mVAO);
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+
     int id =0;
     int offset =0;
     for (auto& t: mTextures)
@@ -207,4 +245,15 @@ void Level::Draw (const sf::Window& window, Context& ctx)
     glBindVertexArray (0);
 
     glUseProgram (0);
+}
+
+bool Level::CheckCollision (const AABB& aabb)
+{
+    for (AABB& a: mBouindingBoxes)
+    {
+        if (a.isColliding(aabb))
+            return true;
+    }
+    
+    return false;
 }
